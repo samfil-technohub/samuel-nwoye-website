@@ -27,7 +27,7 @@ pipeline {
       }
       steps {
         unstash 'ws'
-        echo "Building App"
+        sh 'go build main.go'
       }
     }
     stage ('Test') {
@@ -38,7 +38,7 @@ pipeline {
       }
       steps {
         unstash 'ws'
-        echo "Testing App"
+        sh 'go test -v'
       }
     }
     stage('Deploy') {
@@ -46,7 +46,7 @@ pipeline {
         branch 'master' 
       }
       steps {
-          echo "Deploying to Production"
+        echo "Deploying to Production"
       }
     }
   }
