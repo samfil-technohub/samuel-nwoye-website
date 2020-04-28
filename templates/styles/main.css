@@ -1,0 +1,18 @@
+h2{
+  background-color: #c1cdff;
+  border-width: thin;
+}
+span{
+  background-color:#c1cdff;
+  border-width: thin;
+}
+
+.container-adjust{
+  width:50%;
+  margin: 1rem auto;
+}
+.force-to-bottom {
+position:absolute;
+bottom: 5%;
+width: 100%;
+}
