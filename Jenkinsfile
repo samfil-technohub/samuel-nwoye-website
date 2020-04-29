@@ -54,7 +54,7 @@ pipeline {
         }
         steps {
           sh('''
-              git config --local credential.helper "!f() { echo username=\\$github_username; echo password=\\$github_password; }; f"
+              git config --local credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
               git commit -am "update: successful go build for ${env.BUILD_NUMBER}"
               git push
           ''')
