@@ -18,27 +18,30 @@ pipeline {
         echo "Using Git Tag: ${env.TAG}"    
       }
     }
+    stage ('Test') {
+      agent { 
+        docker { 
+          image 'golang' 
+          arg '-e GO111MODULE=on -e CGO_ENABLED=0 -e GOOS=linux -e GOARCH=amd64 '
+        } 
+      }
+      steps {
+        unstash 'ws'
+        sh 'go version'
+        sh 'go test -v'
+      }
+    }
     stage ('Build') {
       agent { 
         docker { 
           image 'golang'
+          arg '-e GO111MODULE=on -e CGO_ENABLED=0 -e GOOS=linux -e GOARCH=amd64 '
         } 
       }
       steps {
         unstash 'ws'
         sh 'go version'
         sh 'go build main.go'
-      }
-    }
-    stage ('Test') {
-      agent { 
-        docker { 
-          image 'golang' 
-        } 
-      }
-      steps {
-        unstash 'ws'
-        sh 'go test -v'
       }
     }
     stage('Deploy') {
