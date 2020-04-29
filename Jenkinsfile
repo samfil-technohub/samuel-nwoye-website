@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage ('Checkout') {
       steps {
-        checkout([$class:'GitSCM', branches:[[name:'*/*']], doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[], userRemoteConfigs:[[ url:'https://github.com/knoxknot/samuel-nwoye.git']]])
+        checkout([$class:'GitSCM', branches:[[name:'*/*']], doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[], userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
         script {
           def TAG = sh returnStdout: true, script: "git tag -l | tee tags | tail -n1 tags"
         }
