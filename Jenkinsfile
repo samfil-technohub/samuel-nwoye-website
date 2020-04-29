@@ -17,6 +17,7 @@ pipeline {
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
         // stash(name: 'ws', includes: '**', excludes: '**/.git/**')
+        sh 'git checkout -B $TARGET_BRANCH'
         echo "Using Git Tag: ${env.TAG}"   
         sh 'printenv' 
       }
@@ -44,7 +45,6 @@ pipeline {
       }
       steps {
         // unstash 'ws'
-        // sh 'git checkout -B $TARGET_BRANCH'
         sh 'go version'
         sh 'go mod download'
         sh 'go build main.go'  
