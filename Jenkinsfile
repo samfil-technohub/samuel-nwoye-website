@@ -56,11 +56,11 @@ pipeline {
         }
       }
     }
-    // stage ('Clean Up'){
-    //   steps {
-    //     cleanWs()
-    //   }
-    // }
+    stage ('Clean Up'){
+      steps {
+        cleanWs()
+      }
+    }
     stage('Deploy') {
       when {
         branch 'master' 
