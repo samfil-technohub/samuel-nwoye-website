@@ -39,7 +39,7 @@ pipeline {
         sh 'go test -v'
       }
     }
-    stage ('Build') {
+    stage ('Build and Push') {
       agent { 
         docker { 
           image 'golang'
@@ -47,15 +47,14 @@ pipeline {
         } 
       }
       steps {
-        sh 'go mod download'
-        sh 'go build main.go'
         withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
-          // sh("git tag -a some_tag -m 'Jenkins'")
           script {
             env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
           }
           sh('git pull https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
-          // sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
+          sh 'go mod download'
+          sh 'go build main.go'
+          sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
           sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
         } 
       }
@@ -85,11 +84,11 @@ pipeline {
     //     }
     //   }
     // }
-    stage ('Clean Up'){
-      steps {
-        cleanWs()
-      }
-    }
+    // stage ('Clean Up'){
+    //   steps {
+    //     cleanWs()
+    //   }
+    // }
     stage('Deploy') {
       when {
         branch 'master' 
