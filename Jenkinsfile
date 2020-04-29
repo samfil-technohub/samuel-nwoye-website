@@ -9,10 +9,16 @@ pipeline {
   }
   stages {
     stage ('Checkout') {
+      environment {
+        def TAG = sh returnStdout: true, script: "git tag -l | tail -n1"
+        def GIT_BRANCH = sh returnStdout: true, script: "git rev-parse --abbrev-ref HEAD"
+      }
       steps {
         checkout([$class:'GitSCM', branches: [[name: '*/master'], [name: '*/develop'], [name: '*/release']], 
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
+        echo "Using Git Tag: ${GIT_BRANCH}"
+        sh("git checkout -B ${GIT_BRANCH}")   
         sh('''
             git config user.name 'knoxknot'
             git config user.email 'samuel.nwoye@yahoo.com' 
@@ -41,12 +47,6 @@ pipeline {
         } 
       }
       steps {
-        script  {
-          def TAG = sh returnStdout: true, script: "git tag -l | tail -n1"
-          def GIT_BRANCH = sh returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD'
-        }
-        echo "Using Git Branch: ${GIT_BRANCH} and Using Git Tag: ${GIT_TAG}"
-        sh("git checkout -B ${GIT_BRANCH}")   
         withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
           script {
             env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
