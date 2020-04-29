@@ -22,7 +22,7 @@ pipeline {
       agent { 
         docker { 
           image 'golang' 
-          arg '-e GO111MODULE=on -e CGO_ENABLED=0 -e GOOS=linux -e GOARCH=amd64 '
+          args '-e GO111MODULE=on -e CGO_ENABLED=0 -e GOOS=linux -e GOARCH=amd64 '
         } 
       }
       steps {
@@ -35,7 +35,7 @@ pipeline {
       agent { 
         docker { 
           image 'golang'
-          arg '-e GO111MODULE=on -e CGO_ENABLED=0 -e GOOS=linux -e GOARCH=amd64 '
+          args '-e GO111MODULE=on -e CGO_ENABLED=0 -e GOOS=linux -e GOARCH=amd64 '
         } 
       }
       steps {
