@@ -43,7 +43,7 @@ pipeline {
       }
       steps {
         unstash 'ws'
-        ws("${env.WORKSPACE}/samuel-nwoye-website/") {
+        dir("${env.WORKSPACE}/samuel-nwoye-website/") {
           sh 'go version'
           sh 'go mod download'
           sh 'go build main.go'  
