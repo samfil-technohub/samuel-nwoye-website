@@ -17,7 +17,7 @@ pipeline {
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
         // stash(name: 'ws', includes: '**', excludes: '**/.git/**')
-        sh 'git checkout -B $TARGET_BRANCH'
+        sh 'git checkout -B develop'
         echo "Using Git Tag: ${env.TAG}"   
         sh 'printenv' 
       }
