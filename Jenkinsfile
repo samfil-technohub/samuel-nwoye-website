@@ -66,7 +66,7 @@ pipeline {
         withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
           // sh("git tag -a some_tag -m 'Jenkins'")
           sh('git add .')
-          sh("git commit -m 'update: build ${env.BUILD_NUMBER} is successful'")
+          // sh("git commit -m 'update: build ${env.BUILD_NUMBER} is successful'")
           sh('git push https://${github_username}:${github_password}@github.com/samfil-technohub/samuel-nwoye-website.git')
           // sh 'git add .'
           // sh 'git commit -am \"update: build ${env.BUILD_NUMBER} is successful \"'
