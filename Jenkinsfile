@@ -9,14 +9,14 @@ pipeline {
   }
   stages {
     stage ('Checkout') {
-      environment {
-        def TAG = sh returnStdout: true, script: "git tag -l | tail -n1"
-        def GIT_BRANCH = sh returnStdout: true, script: "git rev-parse --abbrev-ref HEAD"
-      }
       steps {
         checkout([$class:'GitSCM', branches: [[name: '*/master'], [name: '*/develop'], [name: '*/release']], 
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
+        script {
+          def TAG = sh returnStdout: true, script: "git tag -l | tail -n1"
+          def GIT_BRANCH = sh returnStdout: true, script: "git rev-parse --abbrev-ref HEAD"
+        }
         echo "Using Git Branch: ${GIT_BRANCH} \n and Using Git Tag: ${GIT_TAG} "
         sh("git checkout -B ${GIT_BRANCH}")   
         sh('''
