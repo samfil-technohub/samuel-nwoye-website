@@ -17,8 +17,8 @@ pipeline {
         checkout([$class:'GitSCM', branches: [[name: '*/master'], [name: '*/develop'], [name: '*/release']], 
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
-        echo "Using Git Branch: ${env.GIT_BRANCH} \n and Using Git Tag: ${env.GIT_TAG} "
-        sh("git checkout -B ${env.GIT_BRANCH}")   
+        echo "Using Git Branch: ${GIT_BRANCH} \n and Using Git Tag: ${GIT_TAG} "
+        sh("git checkout -B ${GIT_BRANCH}")   
         sh('''
             git config user.name 'knoxknot'
             git config user.email 'samuel.nwoye@yahoo.com' 
@@ -67,6 +67,11 @@ pipeline {
         echo "Deploying to Production"
       }
     }
+    // stage ('Clean Workspace'){
+    //   steps {
+    //     cleanWs()
+    //   }
+    // }
   }
   post {
     success {
