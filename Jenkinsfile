@@ -57,7 +57,7 @@ pipeline {
         sh 'printenv'
       }
     }
-    stage('Deploy') {
+    stage('Build AMI') {
       when {
         branch 'master' 
       }
