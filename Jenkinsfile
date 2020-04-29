@@ -67,11 +67,6 @@ pipeline {
         echo "Deploying to Production"
       }
     }
-    stage ('Clean Workspace'){
-      steps {
-        cleanWs()
-      }
-    }
   }
   post {
     success {
