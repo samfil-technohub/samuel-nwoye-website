@@ -9,11 +9,11 @@ pipeline {
   }
   stages {
     stage ('Checkout') {
+      environment {
+        def TAG = sh returnStdout: true, script: "git tag -l | tee tags | tail -n1 tags"
+      }
       steps {
         checkout([$class:'GitSCM', branches:[[name:'*/*']], doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[], userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
-        script {
-          def TAG = sh returnStdout: true, script: "git tag -l | tee tags | tail -n1 tags"
-        }
         echo "Using Git Tag: ${TAG}"
         stash(name: 'ws', includes: '**', excludes: '**/.git/**')    
       }
