@@ -48,14 +48,26 @@ pipeline {
         sh 'go build main.go'
       }
     }
-    stage('Deliver') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
-          sh 'git commit -am "update: successful go build for ${env.BUILD_NUMBER}"'
-          sh 'git push https://{github_username}:{github_password}@github.com/samfil-technohub/samuel-nwoye-website.git'
+    stage('Push') {
+        environment { 
+            GIT_AUTH = credentials('github') 
         }
-      }
+        steps {
+          sh('''
+              git config --local credential.helper "!f() { echo username=\\$github_username; echo password=\\$github_password; }; f"
+              git commit -am "update: successful go build for ${env.BUILD_NUMBER}"
+              git push
+          ''')
+        }
     }
+    // stage('Deliver') {
+    //   steps {
+    //     withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
+    //       sh 'git commit -am "update: successful go build for ${env.BUILD_NUMBER}"'
+    //       sh 'git push https://{github_username}:{github_password}@github.com/samfil-technohub/samuel-nwoye-website.git'
+    //     }
+    //   }
+    // }
     stage ('Clean Up'){
       steps {
         cleanWs()
