@@ -52,6 +52,10 @@ pipeline {
           script {
             env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
           }
+          sh('''
+            git config user.name 'knoxknot'
+            git config user.email 'samuel.nwoye@yahoo.com'
+          ''')
           sh('git add .')
           sh("git commit -m 'update: build ${env.BUILD_NUMBER} is successful'")
           sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
