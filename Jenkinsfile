@@ -46,7 +46,8 @@ pipeline {
         } 
       }
       steps {
-        sh("git checkout -B develop")  
+        sh 'def GIT_BRANCH = sh returnStdout: true, script: "git rev-parse --abbrev-ref HEAD"'
+        sh("git checkout -B ${GIT_BRANCH}")  
         withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
           script {
             env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
