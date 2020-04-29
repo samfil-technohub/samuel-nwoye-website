@@ -13,7 +13,7 @@ pipeline {
         def TAG = sh returnStdout: true, script: "git tag -l | tail -n1"
       }
       steps {
-        checkout([$class:'GitSCM', branches:[[name:'*/*']], 
+        checkout([$class:'GitSCM', branches: [[name: '*/master'], [name: '*/develop'], [name: '*/release']], 
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
         // stash(name: 'ws', includes: '**', excludes: '**/.git/**')
@@ -44,7 +44,7 @@ pipeline {
       }
       steps {
         // unstash 'ws'
-        sh 'git checkout -B develop'
+        // sh 'git checkout -B $TARGET_BRANCH'
         sh 'go version'
         sh 'go mod download'
         sh 'go build main.go'  
