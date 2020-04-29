@@ -56,7 +56,10 @@ pipeline {
             git config user.name 'knoxknot'
             git config user.email 'samuel.nwoye@yahoo.com'
           ''')
-          sh('git add .')
+          sh('''
+            git add .
+            git pull
+          ''')
           sh("git commit -m 'update: build ${env.BUILD_NUMBER} is successful'")
           sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
         } 
