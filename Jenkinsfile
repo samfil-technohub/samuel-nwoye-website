@@ -17,7 +17,7 @@ pipeline {
         checkout([$class:'GitSCM', branches: [[name: '*/master'], [name: '*/develop'], [name: '*/release']], 
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
-        echo "Using Git Tag: ${GIT_BRANCH}"
+        // echo "Using Git Tag: ${GIT_BRANCH}"
         sh("git checkout -B develop")   
         sh('''
             git config user.name 'knoxknot'
