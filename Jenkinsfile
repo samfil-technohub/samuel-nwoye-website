@@ -41,7 +41,7 @@ pipeline {
       steps {
         unstash 'ws'
         sh 'go version'
-        sh 'go build -o ${env.WORKSPACE}/pipeline main.go'
+        sh 'go build -o pipeline main.go'
       }
     }
     stage('Deploy') {
