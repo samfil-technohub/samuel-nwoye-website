@@ -16,14 +16,13 @@ pipeline {
         checkout([$class:'GitSCM', branches: [[name: '*/master'], [name: '*/develop'], [name: '*/release']], 
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
-        // stash(name: 'ws', includes: '**', excludes: '**/.git/**')
         sh('''
             git config user.name 'knoxknot'
             git config user.email 'samuel.nwoye@yahoo.com'
             git checkout -B develop
             git pull origin develop
         ''')
-        echo "Using Git Tag: ${env.TAG}"   
+        echo "Using Git Tag: ${env.GIT_BRANCH}"   
         sh 'printenv' 
       }
     }
