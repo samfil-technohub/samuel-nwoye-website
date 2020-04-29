@@ -45,8 +45,8 @@ pipeline {
       }
     }
     stage('Deliver') {
-      withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
-        steps {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
           sh 'git commit -am "update: successful go build for ${env.BUILD_NUMBER}"'
           sh 'git push https://${github_username}:${github_password}@github.com/samfil-technohub/samuel-nwoye-website.git'
         }
