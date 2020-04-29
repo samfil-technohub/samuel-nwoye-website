@@ -64,9 +64,7 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
           echo "${github_username} ${github_password}"
-          sh ('''
-              git commit -am "update: successful go build for ${env.BUILD_NUMBER}"
-          ''')
+          sh 'git commit -am "update: successful go build"'
           // sh 'git push "https://${github_username}:${github_password}@github.com/samfil-technohub/samuel-nwoye-website.git"'
         }
       }
