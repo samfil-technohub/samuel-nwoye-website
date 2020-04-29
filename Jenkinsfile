@@ -46,7 +46,9 @@ pipeline {
         } 
       }
       steps {
-        def GIT_BRANCH = sh returnStdout: true, script: "git rev-parse --abbrev-ref HEAD"
+        script {
+          env.GIT_BRANCH = "git rev-parse --abbrev-ref HEAD"
+        }
         sh("git checkout -B ${GIT_BRANCH}")  
         withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
           script {
