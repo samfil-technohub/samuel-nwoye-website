@@ -11,17 +11,19 @@ pipeline {
     stage ('Checkout') {
       environment {
         def TAG = sh returnStdout: true, script: "git tag -l | tail -n1"
+        def GIT_BRANCH = sh returnStdout: true, script: "git rev-parse --abbrev-ref HEAD"
       }
       steps {
         checkout([$class:'GitSCM', branches: [[name: '*/master'], [name: '*/develop'], [name: '*/release']], 
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
+        echo "Using Git Tag: ${GIT_BRANCH}"   
         sh('''
             git config user.name 'knoxknot'
             git config user.email 'samuel.nwoye@yahoo.com'
             git checkout -B develop
         ''')
-        echo "Using Git Tag: ${env.GIT_BRANCH}"   
+        
         sh 'printenv' 
       }
     }
