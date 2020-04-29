@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage ('Checkout') {
       environment {
-        def TAG = sh returnStdout: true, script: "git tag -l | tee tags | tail -n1 tags"
+        def TAG = sh returnStdout: true, script: "git tag -l | tail -n1"
       }
       steps {
         checkout([$class:'GitSCM', branches:[[name:'*/*']], 
@@ -63,7 +63,7 @@ pipeline {
     stage('Deliver') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
-          echo "${github_username} ${github_password}"
+          sh 'git add .'
           sh 'git commit -am "update: successful go build"'
           // sh 'git push "https://${github_username}:${github_password}@github.com/samfil-technohub/samuel-nwoye-website.git"'
         }
