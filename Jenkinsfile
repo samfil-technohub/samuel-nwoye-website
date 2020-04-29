@@ -13,7 +13,9 @@ pipeline {
         def TAG = sh returnStdout: true, script: "git tag -l | tee tags | tail -n1 tags"
       }
       steps {
-        checkout([$class:'GitSCM', branches:[[name:'*/*']], doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[], userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
+        checkout([$class:'GitSCM', branches:[[name:'*/*']], 
+        doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
+        userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
         stash(name: 'ws', includes: '**', excludes: '**/.git/**')
         echo "Using Git Tag: ${env.TAG}"    
       }
@@ -28,6 +30,7 @@ pipeline {
       steps {
         unstash 'ws'
         sh 'go version'
+        sh 'go mod download'
         sh 'go test -v'
       }
     }
@@ -41,6 +44,7 @@ pipeline {
       steps {
         unstash 'ws'
         sh 'go version'
+        sh 'go mod download'
         sh 'go build main.go'
       }
     }
