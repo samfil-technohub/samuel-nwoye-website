@@ -22,7 +22,6 @@ pipeline {
       agent { 
         docker { 
           image 'golang'
-          arg '-v \$(pwd):/app'
         } 
       }
       steps {
