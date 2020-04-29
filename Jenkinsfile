@@ -44,6 +44,11 @@ pipeline {
         sh 'go build main.go'
       }
     }
+    stage ('Clean Up'){
+      steps {
+        cleanWs()
+      }
+    }
     stage('Deploy') {
       when {
         branch 'master' 
