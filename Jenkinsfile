@@ -17,13 +17,12 @@ pipeline {
         checkout([$class:'GitSCM', branches: [[name: '*/master'], [name: '*/develop'], [name: '*/release']], 
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
-        echo "Using Git Tag: ${GIT_BRANCH}"   
+        echo "Using Git Tag: ${GIT_BRANCH}"
+        sh("git checkout -B ${GIT_BRANCH}")   
         sh('''
             git config user.name 'knoxknot'
-            git config user.email 'samuel.nwoye@yahoo.com'
-            git checkout -B develop
+            git config user.email 'samuel.nwoye@yahoo.com' 
         ''')
-        
         sh 'printenv' 
       }
     }
@@ -55,10 +54,7 @@ pipeline {
           script {
             env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
           }
-          sh('''
-            git pull origin develop
-            // git add .
-          ''')
+          sh('git pull https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
           sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
           sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
         } 
