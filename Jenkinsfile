@@ -17,8 +17,11 @@ pipeline {
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
         // stash(name: 'ws', includes: '**', excludes: '**/.git/**')
-        
-        sh 'git checkout -B develop'
+        sh('''
+            git config user.name 'knoxknot'
+            git config user.email 'samuel.nwoye@yahoo.com'
+            git checkout -B develop
+        ''')
         echo "Using Git Tag: ${env.TAG}"   
         sh 'printenv' 
       }
@@ -53,14 +56,10 @@ pipeline {
             env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
           }
           sh('''
-            git config user.name 'knoxknot'
-            git config user.email 'samuel.nwoye@yahoo.com'
-          ''')
-          sh('''
             git add .
             git pull origin develop
           ''')
-          sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
+          // sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
           sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
         } 
       }
@@ -90,11 +89,11 @@ pipeline {
     //     }
     //   }
     // }
-    // stage ('Clean Up'){
-    //   steps {
-    //     cleanWs()
-    //   }
-    // }
+    stage ('Clean Up'){
+      steps {
+        cleanWs()
+      }
+    }
     stage('Deploy') {
       when {
         branch 'master' 
