@@ -54,7 +54,8 @@ pipeline {
           sh('git pull https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
           sh 'go mod download'
           sh 'go build main.go'
-          sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
+          // sh 'git add .'
+          // sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
           sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
         } 
       }
