@@ -51,51 +51,27 @@ pipeline {
           script {
             env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
           }
-          sh('git pull https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
-          sh 'go mod download'
-          sh 'go build main.go'
-          // sh 'git add .'
+          sh('''
+            git pull https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git
+            sh 'go mod download'
+            sh 'go build main.go'
+            git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git
+          ''')
           // sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
-          sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
         } 
       }
     }
-    // stage('Push') {
-    //   environment { 
-    //     GIT_AUTH = credentials('github') 
-    //   }
-    //   steps {
-    //     sh('''
-    //         git config --local credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
-    //         git commit -am "update: successful go build for ${env.BUILD_NUMBER}"
-    //         git push
-    //     ''')
-    //   }
-    // }
-    // stage('Deliver') {
-    //   steps {
-    //     withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
-    //       // sh("git tag -a some_tag -m 'Jenkins'")
-    //       script {
-    //         env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
-    //       }
-    //       sh('git add .')
-    //       sh("git commit -m 'update: build ${env.BUILD_NUMBER} is successful'")
-    //       sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
-    //     }
-    //   }
-    // }
-    // stage ('Clean Up'){
-    //   steps {
-    //     cleanWs()
-    //   }
-    // }
     stage('Deploy') {
       when {
         branch 'master' 
       }
       steps {
         echo "Deploying to Production"
+      }
+    }
+    stage ('Clean Workspace'){
+      steps {
+        cleanWs()
       }
     }
   }
