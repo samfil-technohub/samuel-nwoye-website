@@ -20,7 +20,6 @@ pipeline {
             git config user.name 'knoxknot'
             git config user.email 'samuel.nwoye@yahoo.com'
             git checkout -B develop
-            git pull origin develop
         ''')
         echo "Using Git Tag: ${env.GIT_BRANCH}"   
         sh 'printenv' 
@@ -34,7 +33,6 @@ pipeline {
         } 
       }
       steps {
-        // unstash 'ws'
         sh 'go version'
         sh 'go mod download'
         sh 'go test -v'
@@ -56,9 +54,10 @@ pipeline {
             env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
           }
           sh('''
-            git add .
+            git pull origin develop
+            // git add .
           ''')
-          // sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
+          sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
           sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
         } 
       }
