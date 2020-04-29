@@ -43,7 +43,7 @@ pipeline {
       steps {
         script  {
           def TAG = sh returnStdout: true, script: "git tag -l | tail -n1"
-          def GIT_BRANCH = sh returnStdout: true, script: "git rev-parse --abbrev-ref HEAD"
+          def GIT_BRANCH = sh returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD'
         }
         echo "Using Git Branch: ${GIT_BRANCH} and Using Git Tag: ${GIT_TAG}"
         sh("git checkout -B ${GIT_BRANCH}")   
