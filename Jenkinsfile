@@ -14,8 +14,8 @@ pipeline {
       }
       steps {
         checkout([$class:'GitSCM', branches:[[name:'*/*']], doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[], userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
-        echo "Using Git Tag: ${env.TAG}"
-        stash(name: 'ws', includes: '**', excludes: '**/.git/**')    
+        stash(name: 'ws', includes: '**', excludes: '**/.git/**')
+        echo "Using Git Tag: ${env.TAG}"    
       }
     }
     stage ('Build') {
@@ -26,6 +26,7 @@ pipeline {
       }
       steps {
         unstash 'ws'
+        sh 'go version'
         sh 'go build main.go'
       }
     }
