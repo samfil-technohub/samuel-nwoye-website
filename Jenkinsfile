@@ -55,7 +55,7 @@ pipeline {
             env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
           }
           sh('git pull https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
-          sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
+          // sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
           sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
         } 
       }
