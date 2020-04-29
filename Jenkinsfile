@@ -44,7 +44,7 @@ pipeline {
       }
       steps {
         // unstash 'ws'
-        sh 'git checkout -B $TARGET_BRANCH'
+        sh 'git checkout -B develop'
         sh 'go version'
         sh 'go mod download'
         sh 'go build main.go'  
