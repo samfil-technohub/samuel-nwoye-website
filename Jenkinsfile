@@ -60,7 +60,7 @@ pipeline {
             git add .
             git pull origin develop
           ''')
-          sh("git commit -m 'update: build ${env.BUILD_NUMBER} is successful'")
+          sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
           sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
         } 
       }
