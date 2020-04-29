@@ -35,13 +35,13 @@ pipeline {
       agent { 
         docker { 
           image 'golang'
-          args ' -e GOCACHE=/tmp/.cache -e GO111MODULE=on -e CGO_ENABLED=0 -e GOOS=linux -e GOARCH=amd64 '
+          args ' -v $pwd:/tmp/ -e GOCACHE=/tmp/.cache -e GO111MODULE=on -e CGO_ENABLED=0 -e GOOS=linux -e GOARCH=amd64 '
         } 
       }
       steps {
         unstash 'ws'
         sh 'go version'
-        sh 'go build main.go'
+        sh 'go build -o pipeline main.go'
       }
     }
     stage('Deploy') {
