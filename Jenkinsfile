@@ -9,11 +9,16 @@ pipeline {
   }
   stages {
     stage ('Checkout') {
+      environment {
+        def TAG = sh returnStdout: true, script: "git tag -l | tail -n1"
+        def GIT_BRANCH = sh returnStdout: true, script: "git rev-parse --abbrev-ref HEAD"
+      }
       steps {
         checkout([$class:'GitSCM', branches: [[name: '*/master'], [name: '*/develop'], [name: '*/release']], 
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
-        echo "Using Git Tag: ${GIT_BRANCH}" 
+        echo "Using Git Tag: ${GIT_BRANCH}"
+        sh("git checkout -B ${GIT_BRANCH}")   
         sh('''
             git config user.name 'knoxknot'
             git config user.email 'samuel.nwoye@yahoo.com' 
@@ -41,17 +46,11 @@ pipeline {
           args ' -e GOCACHE=/tmp/.cache -e GO111MODULE=on -e GOOS=linux -e GOARCH=amd64 '
         } 
       }
-      environment {
-        def TAG = sh returnStdout: true, script: "git tag -l | tail -n1"
-        def GIT_BRANCH = sh returnStdout: true, script: "git rev-parse --abbrev-ref HEAD"
-      }
       steps {
-           
         withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
           script {
             env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
           }
-          sh "git checkout -B ${GIT_BRANCH}"
           sh 'git pull https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git'
           sh 'go mod download'
           sh 'go build main.go'
