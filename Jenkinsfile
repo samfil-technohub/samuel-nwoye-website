@@ -17,6 +17,7 @@ pipeline {
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
         // stash(name: 'ws', includes: '**', excludes: '**/.git/**')
+        
         sh 'git checkout -B develop'
         echo "Using Git Tag: ${env.TAG}"   
         sh 'printenv' 
@@ -44,10 +45,24 @@ pipeline {
         } 
       }
       steps {
-        // unstash 'ws'
-        sh 'go version'
         sh 'go mod download'
-        sh 'go build main.go'  
+        sh 'go build main.go'
+        withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
+          // sh("git tag -a some_tag -m 'Jenkins'")
+          script {
+            env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
+          }
+          sh('''
+            git config user.name 'knoxknot'
+            git config user.email 'samuel.nwoye@yahoo.com'
+          ''')
+          sh('''
+            git add .
+            git pull origin develop
+          ''')
+          sh("git commit -m 'update: build ${env.BUILD_NUMBER} is successful'")
+          sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
+        } 
       }
     }
     // stage('Push') {
@@ -62,19 +77,19 @@ pipeline {
     //     ''')
     //   }
     // }
-    stage('Deliver') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
-          // sh("git tag -a some_tag -m 'Jenkins'")
-          sh('git add .')
-          // sh("git commit -m 'update: build ${env.BUILD_NUMBER} is successful'")
-          sh('git push https://${github_username}:${github_password}@github.com/samfil-technohub/samuel-nwoye-website.git')
-          // sh 'git add .'
-          // sh 'git commit -am \"update: build ${env.BUILD_NUMBER} is successful \"'
-          // sh 'git push "https://${github_username}:${github_password}@github.com/samfil-technohub/samuel-nwoye-website.git"'
-        }
-      }
-    }
+    // stage('Deliver') {
+    //   steps {
+    //     withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
+    //       // sh("git tag -a some_tag -m 'Jenkins'")
+    //       script {
+    //         env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
+    //       }
+    //       sh('git add .')
+    //       sh("git commit -m 'update: build ${env.BUILD_NUMBER} is successful'")
+    //       sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
+    //     }
+    //   }
+    // }
     // stage ('Clean Up'){
     //   steps {
     //     cleanWs()
