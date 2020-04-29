@@ -16,8 +16,9 @@ pipeline {
         checkout([$class:'GitSCM', branches:[[name:'*/*']], 
         doGenerateSubmoduleConfigurations:false, extensions:[], submoduleCfg:[],
         userRemoteConfigs:[[ url:'https://github.com/samfil-technohub/samuel-nwoye-website.git']]])
-        stash(name: 'ws', includes: '**', excludes: '**/.git/**')
-        echo "Using Git Tag: ${env.TAG}"    
+        // stash(name: 'ws', includes: '**', excludes: '**/.git/**')
+        echo "Using Git Tag: ${env.TAG}"   
+        sh 'printenv' 
       }
     }
     stage ('Test') {
@@ -28,7 +29,7 @@ pipeline {
         } 
       }
       steps {
-        unstash 'ws'
+        // unstash 'ws'
         sh 'go version'
         sh 'go mod download'
         sh 'go test -v'
@@ -42,12 +43,10 @@ pipeline {
         } 
       }
       steps {
-        unstash 'ws'
-        ws("${env.WORKSPACE}/") {
-          sh 'go version'
-          sh 'go mod download'
-          sh 'go build main.go'  
-        }
+        // unstash 'ws'
+        sh 'go version'
+        sh 'go mod download'
+        sh 'go build main.go'  
       }
     }
     // stage('Push') {
@@ -62,15 +61,15 @@ pipeline {
     //       ''')
     //     }
     // }
-    stage('Deliver') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
-          sh 'git add .'
-          sh 'git commit -am \"update: build ${env.BUILD_NUMBER} is successful \"'
-          // sh 'git push "https://${github_username}:${github_password}@github.com/samfil-technohub/samuel-nwoye-website.git"'
-        }
-      }
-    }
+    // stage('Deliver') {
+    //   steps {
+    //     withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
+    //       sh 'git add .'
+    //       sh 'git commit -am \"update: build ${env.BUILD_NUMBER} is successful \"'
+    //       // sh 'git push "https://${github_username}:${github_password}@github.com/samfil-technohub/samuel-nwoye-website.git"'
+    //     }
+    //   }
+    // }
     // stage ('Clean Up'){
     //   steps {
     //     cleanWs()
