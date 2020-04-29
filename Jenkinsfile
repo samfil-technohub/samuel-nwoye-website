@@ -62,7 +62,7 @@ pipeline {
         branch 'master' 
       }
       steps {
-        echo "Deploying to Production"
+        build job: 'samuel-nwoye-website-ami'
       }
     }
     stage ('Clean Workspace'){
