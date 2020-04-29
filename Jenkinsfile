@@ -21,6 +21,7 @@ pipeline {
             git config user.name 'knoxknot'
             git config user.email 'samuel.nwoye@yahoo.com'
             git checkout -B develop
+            git pull origin develop
         ''')
         echo "Using Git Tag: ${env.TAG}"   
         sh 'printenv' 
@@ -57,7 +58,6 @@ pipeline {
           }
           sh('''
             git add .
-            git pull origin develop
           ''')
           // sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
           sh('git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git')
