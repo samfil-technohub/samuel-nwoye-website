@@ -43,9 +43,11 @@ pipeline {
       }
       steps {
         unstash 'ws'
-        sh 'go version'
-        sh 'go mod download'
-        sh 'go build main.go'
+        ws("${env.WORKSPACE}/samuel-nwoye-website/") {
+          sh 'go version'
+          sh 'go mod download'
+          sh 'go build main.go'  
+        }
       }
     }
     // stage('Push') {
@@ -64,7 +66,7 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'github_password', usernameVariable: 'github_username')]) {
           sh 'git add .'
-          sh 'git commit -am "update: successful go build"'
+          sh 'git commit -am \"update: build ${env.BUILD_NUMBER} is successful \"'
           // sh 'git push "https://${github_username}:${github_password}@github.com/samfil-technohub/samuel-nwoye-website.git"'
         }
       }
