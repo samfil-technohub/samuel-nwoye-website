@@ -3,7 +3,7 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr:'5', artifactNumToKeepStr:'5', artifactDaysToKeepStr:'7'))
     durabilityHint('PERFORMANCE_OPTIMIZED')
-    retry(3)
+    retry(1)
     skipDefaultCheckout()
     timestamps()
   }
