@@ -58,9 +58,9 @@ pipeline {
       }
     }
     stage('Build AMI') {
-      // when {
-      //   branch 'master' 
-      // }
+      when {
+        branch 'master' 
+      }
       steps {
         build job: 'samuel-nwoye-website-ami'
       }
