@@ -1,6 +1,5 @@
 ## Documentation
 Developing a Personal Homepage in Go. 
-**Note:** Use this for HashiTalk Africa. Keep things very simple and add up features gradually.
 
 **Operations**
 ---
