@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
   # operating system for the VM
-  config.vm.box = "ubuntu-xenial64"
+  config.vm.box = "pygodoc-xenial64"
 
   # ssh settings
   config.ssh.username = "vagrant"

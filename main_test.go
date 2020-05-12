@@ -5,34 +5,37 @@ import (
 	"net/http/httptest"
 	"testing"
 	"regexp"
+
+	"github.com/samfil-technohub/samuel-nwoye-website/controllers"
 )
+
+// instantiate the headless browser and function to test
+func executeRequest(req *http.Request, function http.HandlerFunc) *httptest.ResponseRecorder {
+	browser := httptest.NewRecorder()
+	http.HandlerFunc(function).ServeHTTP(browser, req)
+
+	return browser
+}
+
+// Check that the desired Status Code is Returned
+func checkResponseCode(t *testing.T, expected, actual int) {
+	if expected != actual {
+		t.Errorf("Expected response code %d. Got %d\n", expected, actual)
+	}
+}
 
 func TestIndex(t *testing.T) {
 	// type of request, path and payload
-	req, err := http.NewRequest("GET", "/", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	req, _ := http.NewRequest("GET", "/", nil)
+	res := executeRequest(req, controllers.Index)
 
-	// instantiate the headless browser
-	rec := httptest.NewRecorder()
-
-	// which function are we testing
-	hf := http.HandlerFunc(Index)
-
-	// make the request
-	hf.ServeHTTP(rec, req)
-
-	// Check the desired Status Code is Returned
-	if status := rec.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",status, http.StatusOK)
-	}
+	checkResponseCode(t, http.StatusOK, res.Code)
 
 	// instantiate regex on the returned response
-	r, _ := regexp.Compile(rec.Body.String())
-	
+	r, _ := regexp.Compile(res.Body.String())
+ 
 	// Did our test pass
-	actual := rec.Body.String()
+	actual := res.Body.String()
 	expected := r.FindString("Welcome to my Homepage")
 	if actual != expected {
 		t.Errorf("handler returned unexpected body: got %v want %v", actual, expected)
