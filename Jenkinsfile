@@ -61,7 +61,7 @@ pipeline {
         branch 'master' 
       }
       steps {
-        build job: 'samuel-nwoye-website-ami'
+        build job: 'samuel-nwoye-website-ami' 
       }
     }
     stage ('Clean Workspace'){
