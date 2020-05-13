@@ -1,8 +1,8 @@
-name: samuel-nwoye-website
+name: continuous-integration
 on: [push, pull_request, release]
 jobs:
   build:
-    name: samuel-nwoye-website
+    name: jenkinsci
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
