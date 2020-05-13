@@ -55,7 +55,7 @@ pipeline {
     //       //sh("git commit -am 'update: build ${env.BUILD_NUMBER} is successful'")
     //     } 
     //   }
-    // }
+    // } 
     stage('Build AMI') {
       when {
         branch 'master' 
