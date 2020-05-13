@@ -1,0 +1,13 @@
+name: continuous-integration
+on: [push, pull_request, release]
+jobs:
+  build:
+    name: samuel-nwoye-website
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Trigger Jenkinsfile
+      uses: jenkinsci/jenkins@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
