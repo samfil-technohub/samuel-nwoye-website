@@ -48,7 +48,7 @@ pipeline {
           script {
             env.encodedPass=URLEncoder.encode(github_password, "UTF-8")
           }
-          sh 'git pull https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git'
+          // sh 'git pull https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git'
           sh 'go mod download'
           sh 'go build main.go'
           sh 'git push https://${github_username}:${encodedPass}@github.com/samfil-technohub/samuel-nwoye-website.git'
