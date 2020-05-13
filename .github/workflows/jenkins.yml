@@ -8,7 +8,7 @@ jobs:
     - uses: actions/checkout@master
     - name: Trigger Jenkinsfile
       # run: echo Triggered Jenkinsfile
-      uses: jenkinsci/jenkinsfile-runner-github-actions/jenkinsfile-runner-lazyloaded@master
+      uses: jenkinsci/jenkinsfile-runner-github-actions/jenkinsfile-runner-prepackaged@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
