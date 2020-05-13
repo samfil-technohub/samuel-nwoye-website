@@ -7,7 +7,8 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Trigger Jenkinsfile
-      uses: jenkinsci/jenkins
+      run: echo Triggered Jenkinsfile
+      # uses: jenkinsci/jenkins
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
