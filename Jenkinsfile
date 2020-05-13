@@ -5,7 +5,7 @@ pipeline {
     durabilityHint('PERFORMANCE_OPTIMIZED')
     retry(1)
     skipDefaultCheckout()
-    timestamps()
+    // timestamps()
   }
   stages {
     stage ('Checkout') {
