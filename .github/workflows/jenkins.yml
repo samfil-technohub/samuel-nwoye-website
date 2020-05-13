@@ -5,15 +5,10 @@ jobs:
     name: samuel-nwoye-website
     runs-on: ubuntu-latest
     steps:
-    - uses: appleboy/jenkins-action@master #actions/checkout@master
-      name: Trigger Jenkinsfile
-      with:
-        url: "http://52.16.127.152:8080"
-        user: "samuel"
-        token: ${{ secrets.GITHUB_TOKEN }}
-        job: "samuel-nwoye-website"
-      #run: echo Triggered Jenkinsfile
-      #uses: jenkins/jenkins #jenkinsci/jenkinsfile-runner-github-actions/jenkinsfile-runner-prepackaged@master
-      # env:
-      #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@master
+    - name: Trigger Jenkinsfile
+      # run: echo Triggered Jenkinsfile
+      uses: jenkinsci/jenkinsfile-runner-github-actions/jenkinsfile-runner-lazyloaded@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
